@@ -1,4 +1,1 @@
-// todo main page...
-function test() {
-    alert('hello')
-}
+alert("메인 페이지")
