@@ -13,9 +13,13 @@ db = client.dbsparta
 def home():
     return render_template('index.html')
 
-@app.route('/signup2')
+@app.route('/signup')
 def signup_page():
-    return render_template('signup2.html')
+    return render_template('signup.html')
+
+@app.route('/postAdd')
+def add_post_page():
+    return render_template('postAdd.html')
 
 
 # 댓글 포스트
