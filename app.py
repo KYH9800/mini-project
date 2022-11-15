@@ -13,9 +13,11 @@ db = client.dbsparta
 def home():
     return render_template('index.html')
 
+
 @app.route('/signup')
 def signup_page():
     return render_template('signup.html')
+
 
 @app.route('/postAdd')
 def add_post_page():
@@ -26,21 +28,52 @@ def add_post_page():
 @app.route('/api/comment', methods=['POST'])
 def comment_post():
     comment_receive = request.form['comments_give']
+    post_id_receive = request.form['post_id']
     # user_id = db.users.find_one({:}) // 유저 id를 가져옴
 
     doc = {
         'comment': comment_receive,
+        'post_id': post_id_receive
     }
     db.comments.insert_one(doc)
     return jsonify({'msg': '댓글작성 완료!'})
 
 
-# 댓글 get
+# 댓글 get(comment id 매칭시킬때 id:false 빼줘야댐)
 @app.route('/api/comment', methods=["GET"])
 def comment_get():
     comments_list = list(db.comments.find({}, {'_id': False}))
 
     return jsonify({'comments': comments_list})
+
+
+# 글 작성 post
+@app.route('/api/post', methods=['POST'])
+def post_add():
+    content_receive = request.form['content_give']
+
+    doc = {'content': content_receive}
+
+    db.content.insert_one(doc)
+    return jsonify({'msg': '작성 완료!'})
+
+
+@app.route("/api/post", methods=['GET'])
+def post_get():
+    # object id 구하는 코드
+    posts_list = list(db.content.find({}))
+    object_id_li = []
+    object_id_list = []
+    for i in posts_list:
+        i['_id'] = str(i)
+        object_id_li.append(i)
+    for j in range(0, len(posts_list)):
+        object_id_list.append(object_id_li[j]['_id'][18:42])
+    print(object_id_list)
+
+    comment_list = list(db.comments.find({}, {'_id': False}))
+
+    return jsonify({'contents': posts_list, 'comments': comment_list})
 
 
 @app.route('/login')
