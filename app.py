@@ -50,7 +50,7 @@ def comment_get():
 # 글 작성 post
 @app.route('/api/post', methods=['POST'])
 def post_add():
-    content_receive = request.form['content_give']
+    content_receive = request.form['content_give'],
 
     doc = {'content': content_receive}
 
@@ -71,9 +71,7 @@ def post_get():
         object_id_list.append(object_id_li[j]['_id'][18:42])
     print(object_id_list)
 
-    comment_list = list(db.comments.find({}, {'_id': False}))
-
-    return jsonify({'contents': posts_list, 'comments': comment_list})
+    return jsonify({'contents': posts_list})
 
 
 @app.route('/login')
