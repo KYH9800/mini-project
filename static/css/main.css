@@ -88,3 +88,7 @@ ul {
 #post-edit-btns{
     margin-bottom: 5px;
 }
+
+#how-many-comments{
+    float: right;
+}
