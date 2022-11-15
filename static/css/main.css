@@ -1,0 +1,46 @@
+.sidenav {
+    display: table-cell;
+    color: red;
+    float: right;
+    height: 2000px;
+    width: 250px;
+    border: 1px solid black;
+    padding: 20px
+
+}
+
+
+#login-btn {
+    float: right;
+    margin-top: 4px;
+}
+
+.login-forms input {
+    float: right;
+}
+
+.main-page {
+    padding: 30px 200px 20px 10px;
+
+}
+
+.main-post {
+    border: 2px solid black;
+    padding: 50px 50px 50px 50px;
+}
+
+.input-comment {
+    margin-top: 10px;
+}
+
+.input-comment input {
+    width: 880px;
+}
+
+.input-comment button {
+    float: right;
+}
+
+ul {
+    list-style: none;
+}
