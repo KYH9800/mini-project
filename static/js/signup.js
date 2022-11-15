@@ -4,6 +4,11 @@ let nickname_accession_condition = false
 // 가입 완료 여부
 let signup_condition = true
 
+// 로그인 페이지로 이동
+function moveToLoginPage() {
+    window.location.replace('/login')
+}
+
 // 이메일 중복확인
 function emailCheck() {
     let email = $('#user-email').val()

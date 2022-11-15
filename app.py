@@ -10,15 +10,30 @@ app = Flask(__name__)
 client = MongoClient("mongodb+srv://test:sparta@cluster0.nxcyemj.mongodb.net/?retryWrites=true&w=majority")
 db = client.gsfestival
 
+# secret_key
+SECRET_KEY = 'GS_FESTIVAL'
+
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    token_receive = request.cookies.get("user_token")
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_data = db.users.find_one({"email": payload['id']})
+        print(payload)
+        return render_template('index.html', user_info=user_data['email'])
+
+    except jwt.ExpiredSignatureError:  # 만료된 서명 오류
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+
+    except jwt.exceptions.DecodeError:  # 예외.디코드 에러
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    msg = request.args.get("msg")
+    return render_template('login.html', msg=msg)
 
 
 @app.route('/signup')
@@ -86,6 +101,34 @@ def post_signup():
     db.users.insert_one(doc)
 
     return jsonify({'msg': '회원가입이 완료되었습니다.'})
+
+
+@app.route("/api/login", methods=["POST"])  # users information
+def jwt_login():
+    email_receive = request.form['email_give']
+    pw_receive = request.form['pw_give']
+    # print(id_receive, pw_receive)
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+    print(email_receive)
+
+    doc = {
+        'email': email_receive,
+        'password': pw_hash
+    }
+
+    result = db.users.find_one(doc)
+    print(result)
+
+    if result is not None:
+        payload = {
+            'id': email_receive,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
+            # datetime.datetime.utcnow(): 지금 부터 + datetime.timedelta(seconds=5): 5초 뒤까지
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        return jsonify({'result': 'success', 'token': token})
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디 또는 비밀번호가 일치하지 않습니다.'})
 
 
 @app.route("/api", methods=["GET"])  # users information
