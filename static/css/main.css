@@ -1,0 +1,74 @@
+#top-bar{
+    height: 100px;
+}
+
+.site-name{
+    float : right;
+    padding-left: 50%;
+
+}
+
+
+.sidenav {
+    display: table-cell;
+    color: red;
+    float: right;
+    height: 2000px;
+    width: 250px;
+    padding: 20px;
+    border-top: 1px solid rgb(207, 220, 248);
+    background-color: rgb(230,237,251);
+
+}
+
+#login-btn {
+    float: right;
+    background-color: rgb(115, 130, 159);
+    border:none;
+    color: white;
+}
+
+.login-forms input {
+    float: right;
+}
+
+.main-page {
+    padding: 100px 200px 20px 100px;
+
+}
+
+.main-post {
+    border: 1px solid rgb(207, 220, 248);
+    padding: 50px 50px 50px 50px;
+    border-radius: 10px;
+    width: 700px;
+    height: 250px;
+    resize: none;
+}
+.main-post:disabled{
+    background-color: white;
+}
+
+.input-comment {
+    margin-top: 10px;
+}
+#post-comment{
+    width: 300px;
+}
+
+
+
+.input-comment button {
+    float: right;
+    background-color: rgb(230,237,251)
+}
+
+.comment-top-hr{
+    border : none;
+    height: 4px;
+    background: rgb(207, 220, 248);
+}
+
+ul {
+    list-style: none;
+}
