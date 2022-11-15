@@ -27,19 +27,18 @@ def add_post_page():
 # 댓글 포스트
 @app.route('/api/comment', methods=['POST'])
 def comment_post():
-    comment_receive = request.form['comments_give']
     post_id_receive = request.form['post_id_give']
+    comment_content_receive = request.form['comment_content_give']
     # user_id = db.users.find_one({:}) // 유저 id를 가져옴
 
     doc = {
-        'comment': comment_receive,
-        'post_id': post_id_receive
+        'post_id': post_id_receive,
+        'comment_content': comment_content_receive
     }
     db.comments.insert_one(doc)
     return jsonify({'msg': '댓글작성 완료!'})
 
 
-# 댓글 get(comment id 매칭시킬때 id:false 빼줘야댐)
 @app.route('/api/comment', methods=["GET"])
 def comment_get():
     comments_list = list(db.comments.find({}, {'_id': False}))
@@ -69,7 +68,6 @@ def post_get():
         object_id_li.append(i)
     for j in range(0, len(posts_list)):
         object_id_list.append(object_id_li[j]['_id'][18:42])
-    print(object_id_list)
 
     return jsonify({'contents': posts_list})
 

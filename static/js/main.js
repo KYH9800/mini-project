@@ -29,12 +29,12 @@ function post_get() {
                     
                 </textarea>
                     <div class="input-group mb-3">
-                        <input id = 'input-comment' type="text" class="form-control" placeholder="댓글을 작성해 주세요!"
+                        <input id = '${objID}' type="text" class="form-control" placeholder="댓글을 작성해 주세요!"
                                aria-label="댓글을 작성해 주세요!"
                                aria-describedby="button-addon2"
                                >
-                        <input id="objValue" type="hidden" value="${objID}">
-                        <button onclick="postComments()" class="btn btn-outline-secondary" type="button" id="button-addon2">작성
+                        <input id="${objID+'a'}" type="text" value="${objID}">
+                        <button onclick="postComments('${objID}')" class="btn btn-outline-secondary" type="button" id="button-addon2">작성
                         </button>
                     </div>
                 </div>
