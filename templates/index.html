@@ -20,6 +20,9 @@
 
     </span>
 </nav>
+
+
+<!--if !user -->
 <!--로그인 사이드바-->
 <aside class="sidenav">
     <div class="login-forms">
@@ -32,8 +35,22 @@
                    aria-describedby="inputGroup-sizing-sm" placeholder="비밀번호를 입력하세요">
         </div>
     </div>
+    <button id="signup-btn" class="btn btn-dark">회원가입</button>
     <button id="login-btn" class="btn btn-dark">로그인</button>
+
+
+    <br><br><br>
+    비회원이라면 ^^
+    <br>로그인된 유저라면 vv
+    <!--if user-->
+    <button id="logout-btn" class="btn btn-danger">로그아웃</button>
+    <a href="#">
+        <button id="posting-btn" class="btn btn-primary">글쓰기</button>
+    </a>
+
+
 </aside>
+
 
 <!--disabled 속성 이용해서 글 수정시 사용-->
 <main class="main-page container">
@@ -41,6 +58,14 @@
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus ipsum minus, molestias neque repellat
         reprehenderit saepe sed. Animi cumque deserunt dolor iste natus, sunt! Error esse iure placeat repellendus sit.
     </textarea>
+
+
+    <p style="color: red"; >게시글 작성자가 로그인된 유저라면 아래 버튼 나타나게 함</p>
+    <div id="post-edit-btns" class="mt-1">
+        <button id="update-post-btn" class="btn btn-primary">글 수정</button>
+        <button id="delete-post-btn" class="btn btn-danger">글 삭제</button>
+    </div>
+
     <div class="input-comment ">
         <div class="input-group mb-3">
             <input id="post-comment" type="text" class="form-control" placeholder="댓글을 작성해 주세요!"

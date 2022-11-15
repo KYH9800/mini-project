@@ -26,6 +26,14 @@
     background-color: rgb(115, 130, 159);
     border:none;
     color: white;
+    margin-right: 2px;
+}
+
+#signup-btn {
+    float: right;
+    background-color: rgb(115, 130, 159);
+    border:none;
+    color: white;
 }
 
 .login-forms input {
@@ -37,9 +45,13 @@
 
 }
 
+#posting-btn{
+
+}
+
 .main-post {
     border: 1px solid rgb(207, 220, 248);
-    padding: 50px 50px 50px 50px;
+    padding: 50px;
     border-radius: 10px;
     width: 700px;
     height: 250px;
@@ -71,4 +83,8 @@
 
 ul {
     list-style: none;
+}
+
+#post-edit-btns{
+    margin-bottom: 5px;
 }
