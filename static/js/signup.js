@@ -1,1 +1,1 @@
-alert("회원가입")
+console.log("회원가입")
