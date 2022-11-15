@@ -28,7 +28,7 @@ def add_post_page():
 @app.route('/api/comment', methods=['POST'])
 def comment_post():
     comment_receive = request.form['comments_give']
-    post_id_receive = request.form['post_id']
+    post_id_receive = request.form['post_id_give']
     # user_id = db.users.find_one({:}) // 유저 id를 가져옴
 
     doc = {

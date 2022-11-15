@@ -1,12 +1,12 @@
-function postComments(postId) {
+function postComments() {
     let postComment = $(`#input-comment`).val()
-    console.log(postComment)
+    let objID = $(`#objValue`).val()
     $.ajax({
         type: 'POST',
         url: '/api/comment',
         data: {
-            'post_id' : postId,
-            'comments_give': postComment
+            'comments_give': postComment,
+            'post_id_give' : objID
         },
         success: function (response) {
             window.location.reload()

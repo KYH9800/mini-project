@@ -32,8 +32,9 @@ function post_get() {
                         <input id = 'input-comment' type="text" class="form-control" placeholder="댓글을 작성해 주세요!"
                                aria-label="댓글을 작성해 주세요!"
                                aria-describedby="button-addon2"
-                               value="${objID}">
-                        <button onclick="postComments(post_id)" class="btn btn-outline-secondary" type="button" id="button-addon2">작성
+                               >
+                        <input id="objValue" type="hidden" value="${objID}">
+                        <button onclick="postComments()" class="btn btn-outline-secondary" type="button" id="button-addon2">작성
                         </button>
                     </div>
                 </div>
@@ -53,6 +54,7 @@ function post_get() {
                 $(`#posted_comment`).append(getComment_html)
                 $(`#posted_post`).append(post_html)
             }
+
         }
     });
 }
