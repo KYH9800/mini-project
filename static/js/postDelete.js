@@ -1,7 +1,4 @@
-// 댓글 Create
-// main page
-// 조형준
- function delete_contents(post_id) {
+function delete_contents(post_id) {
 
             $.ajax({
                 type: 'POST',

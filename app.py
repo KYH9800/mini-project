@@ -3,21 +3,16 @@ from pymongo import MongoClient
 import jwt
 import datetime
 import hashlib
-import certifi
-from bson.json_util import dumps
 from bson.objectid import ObjectId
 
-
-ca = certifi.where()
+from bson.json_util import dumps
 
 app = Flask(__name__)
-client = MongoClient("mongodb+srv://test:sparta@cluster0.nxcyemj.mongodb.net/?retryWrites=true&w=majority",
-                     tlsCAFile=ca)
+client = MongoClient("mongodb+srv://test:sparta@cluster0.nxcyemj.mongodb.net/?retryWrites=true&w=majority")
 db = client.gsfestival
 
 # secret_key
 SECRET_KEY = 'GS_FESTIVAL'
-# project
 
 
 @app.route('/')
@@ -25,15 +20,17 @@ def home():
     token_receive = request.cookies.get("user_token")
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_data = db.users.find_one({"email": payload['id']})
-        # print(payload)
-        return render_template('index.html', user_info=user_data)
+        user_nick = db.users.find_one({'nickname': payload['nick']})
+        print("payload: ", user_nick['nickname'])
+        return render_template('index.html', user_nickname=user_nick['nickname'])
 
     except jwt.ExpiredSignatureError:  # 만료된 서명 오류
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+        # return redirect(url_for("/", msg="로그인 시간이 만료되었습니다."))
+        return render_template('index.html', msg="로그인 시간이 만료되었습니다.")
 
     except jwt.exceptions.DecodeError:  # 예외.디코드 에러
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+        # return redirect(url_for("/", msg="로그인 정보가 존재하지 않습니다."))
+        return render_template('index.html', msg="로그인 정보가 존재하지 않습니다.")
 
 
 @app.route('/login')  # hint: 조건문 활용 msg 없으면? return jsonify
@@ -49,7 +46,18 @@ def signup():
 
 @app.route('/postAdd')
 def post_add_page():
-    return render_template('postAdd.html')
+    token_receive = request.cookies.get("user_token")
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_data = db.users.find_one({'email': payload['id']})
+        print(payload)
+        return render_template('postAdd.html', user_info=user_data)
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("/", msg="로그인 시간이 만료되었습니다."))
+
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("/", msg="로그인 정보가 존재하지 않습니다."))
 
 
 # 이메일 중복확인
@@ -62,7 +70,7 @@ def post_email_check():
     }
 
     user = db.users.find_one(doc, {'_id': False})
-    # print(user)
+    print(user)
 
     if user is None:
         return jsonify({'users': None})
@@ -74,14 +82,14 @@ def post_email_check():
 @app.route('/api/signup_nickname_check', methods=["GET"])
 def post_nickname_check():
     nickname_receive = request.args.get("nickname_give")
-    # print(nickname_receive)
+    print(nickname_receive)
 
     doc = {
         'nickname': nickname_receive
     }
 
     user = db.users.find_one(doc, {'_id': False})
-    # print(user)
+    print(user)
 
     if user is None:
         return jsonify({'users': None})
@@ -92,10 +100,11 @@ def post_nickname_check():
 # 회원가입
 @app.route('/api/signup', methods=["POST"])
 def post_signup():
+    # token이 있으면? 이 라우터에는 접근을 할 수 없게 안전 장치 설정
     email_receive = request.form["email_give"]
     nickname_receive = request.form["nickname_give"]
     password_receive = request.form["password_give"]
-
+    # tip: 이메일, 비밀번호 양식 조건이 맞는지, 서버에도 검사하는 것이 좋음
     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
 
     doc = {
@@ -112,22 +121,25 @@ def post_signup():
 @app.route("/api/login", methods=["POST"])  # users information
 def jwt_login():
     email_receive = request.form['email_give']
+    user_nickname = db.users.find_one({'email': email_receive})
+    # print("email_receive", email_receive)
     pw_receive = request.form['pw_give']
     # print(id_receive, pw_receive)
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-    # print(email_receive)
+    payload_user_nickname = user_nickname['nickname']
 
     doc = {
         'email': email_receive,
         'password': pw_hash
     }
-
     result = db.users.find_one(doc)
-    # print(result)
+    print(result)
 
     if result is not None:
+        # print("payload: ", payload_user_nickname, email_receive)
         payload = {
             'id': email_receive,
+            'nick': payload_user_nickname,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
             # datetime.datetime.utcnow(): 지금 부터 + datetime.timedelta(seconds=5): 5초 뒤까지
         }
@@ -155,6 +167,7 @@ def post_add():
     db.contents.insert_one(doc)
     return jsonify({'msg': '작성 완료!'})
 
+
 @app.route("/api/post", methods=['GET'])
 def post_get():
     posts_list = list(db.contents.find({}))
@@ -164,6 +177,7 @@ def post_get():
         print(type(posts_list))
 
     return jsonify({'contents': dumps(posts_list)})
+
 
 # 댓글 포스트
 @app.route('/api/comment', methods=['POST'])
@@ -201,23 +215,6 @@ def gs_festival_user_get():
     return jsonify({
         'users': users
     })
-
-# 삭제 포스트
-@app.route("/post/delete/postid", methods=["POST"])
-def delete_contents():
-    post_id = request.form['post_id']
-    # 받아온 포스트 아이디와 유저 아이디가 같은지 비교한다. 같으면
-    # 해당 개시글을 삭제한다.
-    res=db.contents.delete_one({"_id":ObjectId(str(post_id))})
-    if res.acknowledged:
-        return jsonify({'msg': '게시물이 삭제되었습니다.'})
-    else:
-        return jsonify({'msg': '게시물 삭제에 실패하였습니다.'})
-
-
-@app.route('/postAdd')
-def post_add():
-    return render_template('postAdd.html')
 
 
 if __name__ == '__main__':
