@@ -54,7 +54,8 @@ function post_get() {
 }
 
 function logout() {
-    $.removeCookie('mytoken');
+    console.log("this logout")
+    $.removeCookie("user_token")
     alert('로그아웃!')
     window.location.href = '/login'
 }
