@@ -30,7 +30,7 @@ def home():
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
-@app.route('/login')
+@app.route('/login')  # hint: 조건문 활용 msg 없으면? return jsonify
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
@@ -129,6 +129,55 @@ def jwt_login():
         return jsonify({'result': 'success', 'token': token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디 또는 비밀번호가 일치하지 않습니다.'})
+
+
+# 4. 게시글 작성
+# 글 작성 post
+@app.route('/api/post', methods=['POST'])
+def post_add():
+    content_receive = request.form['content_give'],
+
+    doc = {'content': content_receive}
+
+    db.content.insert_one(doc)
+    return jsonify({'msg': '작성 완료!'})
+
+
+@app.route("/api/post", methods=['GET'])
+def post_get():
+    # object id 구하는 코드
+    posts_list = list(db.content.find({}))
+    object_id_li = []
+    object_id_list = []
+    for i in posts_list:
+        i['_id'] = str(i)
+        object_id_li.append(i)
+    for j in range(0, len(posts_list)):
+        object_id_list.append(object_id_li[j]['_id'][18:42])
+
+    return jsonify({'contents': posts_list})
+
+
+# 댓글 포스트
+@app.route('/api/comment', methods=['POST'])
+def comment_post():
+    post_id_receive = request.form['post_id_give']
+    comment_content_receive = request.form['comment_content_give']
+    # user_id = db.users.find_one({:}) // 유저 id를 가져옴
+
+    doc = {
+        'post_id': post_id_receive,
+        'comment_content': comment_content_receive
+    }
+    db.comments.insert_one(doc)
+    return jsonify({'msg': '댓글작성 완료!'})
+
+
+@app.route('/api/comment', methods=["GET"])
+def comment_get():
+    comments_list = list(db.comments.find({}, {'_id': False}))
+
+    return jsonify({'comments': comments_list})
 
 
 @app.route("/api", methods=["GET"])  # users information
