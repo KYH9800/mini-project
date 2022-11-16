@@ -158,7 +158,7 @@ def post_add():
         'content': content_receive
     }
 
-    db.users.content.insert_one(doc)
+    db.contents.insert_one(doc)
     return jsonify({'msg': '작성 완료!'})
 
 
