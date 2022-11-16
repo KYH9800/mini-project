@@ -11,12 +11,12 @@ function post_get() {
             let rows = response['contents']
 
 
-            let object_id_arr = [];
+            let object_id_arr =[];
             for (let i = 0; i < rows.length; i++) {
                 let posted_content = rows[i]['content']
                 let post_id = rows[i]['_id']
                 object_id_arr = post_id.split(',')
-                let object_id_obj = object_id_arr[0]
+                let object_id_obj =  object_id_arr[0]
                 let objID = object_id_obj.split(':')[1]
                 object_id_arr = objID.split(/[\',\']/)
                 objID = object_id_arr[1]
@@ -33,8 +33,7 @@ function post_get() {
                                aria-label="댓글을 작성해 주세요!"
                                aria-describedby="button-addon2"
                                >
-       
-                        <input id="${objID}" type="hidden" value="${objID}">
+                        <input id="${objID+'a'}" type="hidden" value="${objID}">
                         <button onclick="postComments('${objID}')" class="btn btn-outline-secondary" type="button" id="button-addon2">작성
                         </button>
                     </div>
