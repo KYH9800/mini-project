@@ -1,30 +1,36 @@
-#top-bar{
-    height: 100px;
+* {
+    font-family: 'Jua', sans-serif;
+    font-weight: 300;
 }
 
-.site-name{
-    float : right;
-    padding-left: 50%;
-
+.header {
+    height: 140px;
+    background-color: rgb(230, 237, 251);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.header_title {
+    font-size: 32px;
+    align-content: center;
+}
 
 .sidenav {
     display: table-cell;
     color: red;
     float: right;
-    height: 2000px;
     width: 250px;
+    height: 84.8vh;
     padding: 20px;
     border-top: 1px solid rgb(207, 220, 248);
-    background-color: rgb(230,237,251);
-
+    background-color: rgb(230, 237, 251);
 }
 
 #login-btn {
     float: right;
     background-color: rgb(115, 130, 159);
-    border:none;
+    border: none;
     color: white;
     margin-right: 2px;
 }
@@ -32,7 +38,7 @@
 #signup-btn {
     float: right;
     background-color: rgb(115, 130, 159);
-    border:none;
+    border: none;
     color: white;
 }
 
@@ -41,11 +47,11 @@
 }
 
 .main-page {
-    padding: 100px 200px 20px 100px;
+    padding: 100px 200px 20px 200px;
 
 }
 
-#posting-btn{
+#posting-btn {
 
 }
 
@@ -57,26 +63,27 @@
     height: 250px;
     resize: none;
 }
-.main-post:disabled{
+
+.main-post:disabled {
     background-color: white;
 }
 
 .input-comment {
     margin-top: 10px;
 }
-#post-comment{
+
+#post-comment {
     width: 300px;
 }
 
 
-
 .input-comment button {
     float: right;
-    background-color: rgb(230,237,251)
+    background-color: rgb(230, 237, 251)
 }
 
-.comment-top-hr{
-    border : none;
+.comment-top-hr {
+    border: none;
     height: 4px;
     background: rgb(207, 220, 248);
 }

@@ -26,7 +26,7 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_data = db.users.find_one({"email": payload['id']})
-        print(payload)
+        # print(payload)
         return render_template('index.html', user_info=user_data)
 
     except jwt.ExpiredSignatureError:  # 만료된 서명 오류
@@ -62,7 +62,7 @@ def post_email_check():
     }
 
     user = db.users.find_one(doc, {'_id': False})
-    print(user)
+    # print(user)
 
     if user is None:
         return jsonify({'users': None})
@@ -74,14 +74,14 @@ def post_email_check():
 @app.route('/api/signup_nickname_check', methods=["GET"])
 def post_nickname_check():
     nickname_receive = request.args.get("nickname_give")
-    print(nickname_receive)
+    # print(nickname_receive)
 
     doc = {
         'nickname': nickname_receive
     }
 
     user = db.users.find_one(doc, {'_id': False})
-    print(user)
+    # print(user)
 
     if user is None:
         return jsonify({'users': None})
@@ -115,7 +115,7 @@ def jwt_login():
     pw_receive = request.form['pw_give']
     # print(id_receive, pw_receive)
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-    print(email_receive)
+    # print(email_receive)
 
     doc = {
         'email': email_receive,
@@ -123,7 +123,7 @@ def jwt_login():
     }
 
     result = db.users.find_one(doc)
-    print(result)
+    # print(result)
 
     if result is not None:
         payload = {
@@ -141,15 +141,19 @@ def jwt_login():
 # 글 작성 post
 @app.route('/api/post', methods=['POST'])
 def post_add():
-    content_receive = request.form['content_give'],
+    content_receive = request.form['content_give']
+
+    token_receive = request.cookies.get('user_token')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_data = db.users.find_one({"email": payload["id"]})
 
     doc = {
-        'content': content_receive
+        'content': content_receive,
+        'user_id': user_data['_id']
     }
 
     db.contents.insert_one(doc)
     return jsonify({'msg': '작성 완료!'})
-
 
 @app.route("/api/post", methods=['GET'])
 def post_get():
