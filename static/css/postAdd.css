@@ -1,5 +1,35 @@
+* {
+    font-family: 'Jua', sans-serif;
+    font-weight: 200;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    height: 140px;
+    background-color: rgb(230, 237, 251);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header_title {
+    font-size: 32px;
+    align-content: center;
+}
+
+.side-bar {
+    width: 250px;
+    height: 84.8vh;
+    background-color: rgb(230, 237, 251);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: right;
+}
+
 .post-box {
-    padding: 100px 200px 20px 100px;
+    padding: 100px 200px 20px 200px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,8 +38,8 @@
 
 .post-title {
     margin-bottom: 10px;
-    font-weight: 600;
     text-align: center;
+    font-size: 30px;
 }
 
 textarea {
@@ -17,11 +47,10 @@ textarea {
     height: 250px;
     border: none;
     resize: none;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 20px;
     border-radius: 10px;
     background-color: rgb(230, 237, 251);
-    margin-bottom: 30px;
+    margin: 20px 0 30px 0;
 }
 
 .button-tag {
@@ -37,6 +66,6 @@ textarea {
 button {
     width: 100px;
     height: 30px;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
 }

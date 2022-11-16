@@ -12,6 +12,11 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
+    <!--폰트 링크-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="../static/css/postAdd.css">
 
     <title>게시글 작성</title>
@@ -43,19 +48,26 @@
 </head>
 
 <body>
+<div class="header">
+    <div class="header_title">
+        <p>구순재롱잔치 - 게시글 작성</p>
+    </div>
+</div>
+<div class="side-bar">
+    <div class="side-bar_bar"></div>
+</div>
 <div class="post-box">
     <div class="post-title">
-        <span>게시글 작성하기</span>
+        <span>당신의 이야기를 작성해 주세요.</span>
     </div>
     <div>
-        <textarea rows="10" cols="30" name="contents" id="content" placeholder="  내용을 입력해 주세요."></textarea>
+        <textarea rows="10" cols="30" name="contents" id="content" placeholder="    ex) 우리와 공유하고 싶은 이야기를 적어주세요."></textarea>
     </div>
     <div class="button-tag">
         <button type="submit" onclick="location.href='/'">취소</button>
         <button class="success-button" onclick='post_add()'>작성 완료</button>
     </div>
 </div>
-
 
 </body>
 </html>

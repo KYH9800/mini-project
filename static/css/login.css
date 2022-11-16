@@ -1,11 +1,28 @@
+* {
+    font-family: 'Jua', sans-serif;
+    font-weight: 200;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    height: 140px;
+    background-color: rgb(230, 237, 251);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header_title {
+    font-size: 32px;
+    align-content: center;
+}
+
 #login-wrapper {
     margin: 10% auto;
     padding: 50px;
-
     max-width: 95%;
     width: 500px;
-
-
     border: 1px solid rgba(var(--b6a, 219, 219, 219), 1);
     border-radius: 5px;
 }
@@ -18,7 +35,6 @@
 .login-btn-wrapper {
     margin-top: 20px;
     text-align: center;
-
 }
 
 .login-btn-wrapper button {
