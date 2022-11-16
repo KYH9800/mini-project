@@ -5,14 +5,11 @@ function postComments(objID) {
         type: 'POST',
         url: '/api/comment',
         data: {
-            'post_id_give' : obj,
-            'comment_content_give' : comment_content
+            'post_id_give': obj,
+            'comment_content_give': comment_content
         },
         success: function (response) {
             window.location.reload()
         }
     });
 }
-
-
-
