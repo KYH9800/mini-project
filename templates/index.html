@@ -1,97 +1,35 @@
-<!doctype html>
-<html lang="en">
+{%extends 'base.html'%}
+{%block con%}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>구순잔치</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/main.css">
-    <title>구순재롱잔치</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js%22%3E"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+    <script src="/static/js/comments.js" defer></script>
     <script src="/static/js/main.js" defer></script>
-    <script>
-        {%if msg %}
-            alert("{{ msg }}")
-        {%endif %}
-    </script>
 </head>
-<body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-        crossorigin="anonymous"></script>
-
-<!--상단 바-->
-<nav id="top-bar" class="navbar navbar-expand-lg" style="background-color: rgb(230,237,251)">
-    <span class="site-name">
-        <a class="navbar-brand" href="/"><b>구순</b></a>
-
-    </span>
-</nav>
-
-
-<!--if !user -->
-<!--로그인 사이드바-->
-<aside class="sidenav">
-    <div class="login-forms">
-        <div class="input-group input-group-sm mb-3">
-            <input type="text" class="form-control" aria-label="Sizing example input"
-                   aria-describedby="inputGroup-sizing-sm" placeholder="아이디를 입력하세요">
-        </div>
-        <div class="input-group input-group-sm mb-2 input-pw">
-            <input type="password" class="form-control" aria-label="Sizing example input"
-                   aria-describedby="inputGroup-sizing-sm" placeholder="비밀번호를 입력하세요">
-        </div>
-    </div>
-    <button id="signup-btn" class="btn btn-dark">회원가입</button>
-    <button id="login-btn" class="btn btn-dark">로그인</button>
-
-
-    <br><br><br>
-    비회원이라면 ^^
-    <br>로그인된 유저라면 vv
-    <!--if user-->
-    <button id="logout-btn" class="btn btn-danger">로그아웃</button>
-    <a href="#">
-        <a href=""><button id="posting-btn" class="btn btn-primary">글쓰기</button></a>
-    </a>
-
-
-</aside>
 
 
 <!--disabled 속성 이용해서 글 수정시 사용-->
 <main class="main-page container">
-    <textarea class="main-post container" name="" id="" disabled>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus ipsum minus, molestias neque repellat
-        reprehenderit saepe sed. Animi cumque deserunt dolor iste natus, sunt! Error esse iure placeat repellendus sit.
-    </textarea>
+    <div id="posted_post">
+    </div>
+    <!--    <div id="get-comments">-->
+    <!--    </div>-->
+    <div id="post-comment">
+    </div>
+    <div id="posted_comment">
 
-
-    <p style="color: red"; >게시글 작성자가 로그인된 유저라면 아래 버튼 나타나게 함</p>
-    <div id="post-edit-btns" class="mt-1">
-        <button id="update-post-btn" class="btn btn-primary">글 수정</button>
-        <button id="delete-post-btn" class="btn btn-danger">글 삭제</button>
     </div>
 
-    <div class="input-comment ">
-        <div class="input-group mb-3">
-            <input id="post-comment" type="text" class="form-control" placeholder="댓글을 작성해 주세요!"
-                   aria-label="댓글을 작성해 주세요!"
-                   aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">작성</button>
-        </div>
-    </div>
-    <table class="visual-comment">
-        <hr class="comment-top-hr">
-        <tr>
-            <!-- 댓글 jquery-->
-            <ul id="get-comment" class="list-group">
-                <li class="list-group-item">댓글</li>
-            </ul>
-        </tr>
-    </table>
+
 </main>
-
-
 </body>
 </html>
+{%endblock%}
