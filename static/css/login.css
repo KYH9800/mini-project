@@ -1,55 +1,32 @@
-* {
-    font-family: 'Jua', sans-serif;
-    font-weight: 200;
-    margin: 0;
-    padding: 0;
+.hello {
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 33px;
 }
 
-.header {
-    height: 140px;
-    background-color: rgb(230, 237, 251);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#nickname_tag {
+    color: #0f17c3;
+    font-size: 15px;
+    font-weight: 600;
 }
 
-.header_title {
-    font-size: 32px;
-    align-content: center;
+#logout-btn{
+    width: 80px;
+    height: 35px;
+    font-size: 15px;
 }
 
-#login-wrapper {
-    margin: 10% auto;
-    padding: 50px;
-    max-width: 95%;
-    width: 500px;
-    border: 1px solid rgba(var(--b6a, 219, 219, 219), 1);
-    border-radius: 5px;
+#posting-btn {
+    width: 70px;
+    height: 35px;
+    font-size: 15px
 }
 
-#login-wrapper > h3 {
-    margin-bottom: 70px;
+#none-user{
     text-align: center;
 }
 
-.login-btn-wrapper {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.login-btn-wrapper button {
+#userEmailInput{
     width: 100px;
-}
-
-.find-email {
-    margin-top: 20px;
-}
-
-.find-email:hover {
-    color: blue;
-}
-
-.find-email > a:hover {
-    cursor: pointer;
-    text-decoration: underline !important;
 }

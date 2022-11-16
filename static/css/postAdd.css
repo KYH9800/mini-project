@@ -1,6 +1,6 @@
 * {
     font-family: 'Jua', sans-serif;
-    font-weight: 200;
+    font-weight: 600;
     margin: 0;
     padding: 0;
 }
@@ -18,6 +18,31 @@
     align-content: center;
 }
 
+.mypic {
+    width: 100%;
+    height: 200px;
+
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.pinimg.com/originals/28/52/03/285203f4865a0560852c21afe190d4e4.jpg');
+    background-position: center;
+    background-size: cover;
+
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mypic > h1 {
+    font-size: 30px;
+}
+
+.mypic > h3 {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
 .side-bar {
     width: 250px;
     height: 84.8vh;
@@ -29,43 +54,57 @@
 }
 
 .post-box {
-    padding: 100px 200px 20px 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    max-width: 95%;
+    width: 500px;
+    text-align: center;
+    margin: auto;
 }
 
 .post-title {
-    margin-bottom: 10px;
+    margin-top: 20%;
+    margin-bottom: 2%;
     text-align: center;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 textarea {
-    width: 700px;
-    height: 250px;
-    border: none;
+    width: 95%;
+    max-width: 800px;
+    min-height: 200px;
+    padding: 10px 10px;
     resize: none;
-    font-size: 20px;
-    border-radius: 10px;
-    background-color: rgb(230, 237, 251);
-    margin: 20px 0 30px 0;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #dddddd;
+    letter-spacing: 1.5px;
 }
 
 .button-tag {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.success-button {
-    margin-left: 30px;
+    margin: auto;
+    text-align: center;
 }
 
 button {
-    width: 100px;
+    width: 80px;
     height: 30px;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
+}
+
+.btn-danger {
+    background: #ffd1d1;
+    border: 1px solid #ffa7a7;
+}
+
+.btn-danger:hover {
+    background: #e65858;
+}
+
+.btn-primary {
+    background: #c4c8ff;
+    border: 1px solid #a2a8ff;
+}
+
+.btn-primary:hover {
+    background: #777fff;
 }

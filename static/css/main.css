@@ -1,14 +1,16 @@
 * {
     font-family: 'Jua', sans-serif;
     font-weight: 300;
+    margin: 0;
+    padding: 0;
 }
 
 .header {
     height: 140px;
     background-color: rgb(230, 237, 251);
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /*align-items: center;*/
+    /*justify-content: center;*/
 }
 
 .header_title {
@@ -16,82 +18,176 @@
     align-content: center;
 }
 
+#top-bar {
+    padding: 0;
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.site-name {
+    width: 100%;
+    height: 200px;
+
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.pinimg.com/originals/28/52/03/285203f4865a0560852c21afe190d4e4.jpg');
+    background-position: center;
+    background-size: cover;
+
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.site-name > a {
+    font-size: 30px;
+}
+
 .sidenav {
     display: table-cell;
-    color: red;
+
     float: right;
     width: 250px;
-    height: 84.8vh;
+    margin-top: 3%;
+    margin-right: 3%;
     padding: 20px;
-    border-top: 1px solid rgb(207, 220, 248);
-    background-color: rgb(230, 237, 251);
+
+    border-radius: 5px;
+    border: 1px solid rgb(230, 237, 251);
+
+    width: 300px;
+    height: 200px;
+    text-align: center;
+}
+
+.login-btn-wrapper {
+    margin: 20px auto 5px auto;
+
+    width: 200px;
 }
 
 #login-btn {
-    float: right;
-    background-color: rgb(115, 130, 159);
+    /*background-color: rgb(115, 130, 159);*/
     border: none;
     color: white;
     margin-right: 2px;
+    font-size: 15px;
 }
 
 #signup-btn {
-    float: right;
     background-color: rgb(115, 130, 159);
+    text-decoration-line: none;
     border: none;
     color: white;
+    font-size: 15px;
 }
 
-.login-forms input {
-    float: right;
+#signup-btn:hover {
+    background-color: rgb(99 119 157);
 }
 
-.main-page {
-    padding: 100px 200px 20px 200px;
-
+.find-email {
+    font-size: 13px;
+    text-decoration-line: underline;
+    cursor: pointer;
 }
 
-#posting-btn {
-
+.find-email:hover {
+    color: #0f17c3;
+    font-weight: 700;
 }
 
 .main-post {
     border: 1px solid rgb(207, 220, 248);
     padding: 50px;
     border-radius: 10px;
-    width: 700px;
-    height: 250px;
+
+    width: 477px;
+    height: 300px;
+    overflow: auto;
     resize: none;
+
+    padding: 7px 10px;
+    font-weight: 500;
+
+    overflow: auto; /*스크롤 기능*/
 }
 
-.main-post:disabled {
-    background-color: white;
+.posted_post {
+    margin: auto;
 }
 
-.input-comment {
+.main-page {
+    margin: auto;
+    width: 500px;
+}
+
+.list-group {
+    width: 500px;
+    border-bottom: 1px solid rgb(207, 220, 248);
+    color: white;
+}
+
+.list-group div {
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 12px;
+    color: black;
+    margin-left: 10px;
+}
+
+.form-control {
+    width: 500px;
+}
+
+#delete_post_btn {
+    width: 120px;
+    height: 29px;
+    border: 1px solid #fbaaaa;
+    background: #f8d2d2;
+    border-radius: 5px;
+    margin-left: 2px;
     margin-top: 10px;
+    margin-bottom: 3px;
+    font-weight: 500;
+    padding: 0 10px;
 }
 
-#post-comment {
-    width: 300px;
+#delete_post_btn:hover {
+    background: #fda3a3;
 }
 
+/*.main-post:disabled {*/
+/*    background-color: white;*/
+/*}*/
 
-.input-comment button {
-    float: right;
-    background-color: rgb(230, 237, 251)
-}
+/*.input-comment {*/
+/*    margin-top: 10px;*/
+/*}*/
 
-.comment-top-hr {
-    border: none;
-    height: 4px;
-    background: rgb(207, 220, 248);
-}
+/*#post-comment {*/
+/*    width: 300px;*/
+/*}*/
 
-ul {
-    list-style: none;
-}
 
-#post-edit-btns {
-    margin-bottom: 5px;
-}
+/*.input-comment button {*/
+/*    float: right;*/
+/*    background-color: rgb(230, 237, 251)*/
+/*}*/
+
+/*.comment-top-hr {*/
+/*    border: none;*/
+/*    height: 4px;*/
+/*    background: rgb(207, 220, 248);*/
+/*}*/
+
+/*ul {*/
+/*    list-style: none;*/
+/*}*/
+
+/*#post-edit-btns {*/
+/*    margin-bottom: 5px;*/
+/*}*/

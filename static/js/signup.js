@@ -5,8 +5,8 @@ let nickname_accession_condition = false
 let signup_condition = true
 
 // 로그인 페이지로 이동
-function moveToLoginPage() {
-    window.location.replace('/login')
+function moveToHome() {
+    window.location.replace('/')
 }
 
 // 이메일 중복확인
