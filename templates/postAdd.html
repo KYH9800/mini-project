@@ -19,13 +19,15 @@
     <script>
         function post_add() {
             let content = $('#content').val()
+            console.log(content)
 
             $.ajax({
                 type: 'POST',
                 url: '/api/post',
                 data: {
-                    'content_give': content,
+                    'content_give': content
                 },
+
                 success: function (response) {
                     if (response['success'] == 'true') {
                         alert(response['msg'])
@@ -48,11 +50,12 @@
     <div>
         <textarea rows="10" cols="30" name="contents" id="content" placeholder="  내용을 입력해 주세요."></textarea>
     </div>
+    <div class="button-tag">
+        <button type="submit" onclick="location.href='/'">취소</button>
+        <button class="success-button" onclick='post_add()'>작성 완료</button>
+    </div>
 </div>
-<div class="button-tag">
-    <button type="submit" onclick="location.href='index.html'">취소</button>
-    <button class="success-button" onclick='post_add()'>작성 완료</button>
-</div>
+
 
 </body>
 </html>
