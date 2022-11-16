@@ -1,1 +1,1 @@
-console.log("회원가입")
+console.log("회원가입") // 회원가입
