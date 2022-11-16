@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import jwt
 import datetime
 import hashlib
-
+from bson.objectid import ObjectId
 from bson.json_util import dumps
 
 app = Flask(__name__)
@@ -12,6 +12,7 @@ db = client.gsfestival
 
 # secret_key
 SECRET_KEY = 'GS_FESTIVAL'
+# project
 
 
 @app.route('/')
@@ -21,7 +22,7 @@ def home():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_data = db.users.find_one({"email": payload['id']})
         print(payload)
-        return render_template('index.html', user_info=user_data['email'])
+        return render_template('index.html', user_info=user_data)
 
     except jwt.ExpiredSignatureError:  # 만료된 서명 오류
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -42,7 +43,7 @@ def signup():
 
 
 @app.route('/postAdd')
-def post_add():
+def post_add_page():
     return render_template('postAdd.html')
 
 
@@ -122,7 +123,7 @@ def jwt_login():
     if result is not None:
         payload = {
             'id': email_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
             # datetime.datetime.utcnow(): 지금 부터 + datetime.timedelta(seconds=5): 5초 뒤까지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
@@ -137,9 +138,11 @@ def jwt_login():
 def post_add():
     content_receive = request.form['content_give'],
 
-    doc = {'content': content_receive}
+    doc = {
+        'content': content_receive
+    }
 
-    db.content.insert_one(doc)
+    db.contents.insert_one(doc)
     return jsonify({'msg': '작성 완료!'})
 
 
@@ -187,6 +190,18 @@ def gs_festival_user_get():
     return jsonify({
         'users': users
     })
+
+# 삭제 포스트
+@app.route("/post/delete/postid", methods=["POST"])
+def delete_contents():
+    post_id = request.form['post_id']
+    # 받아온 포스트 아이디와 유저 아이디가 같은지 비교한다. 같으면
+    # 해당 개시글을 삭제한다.
+    res=db.contents.delete_one({"_id":ObjectId(str(post_id))})
+    if res.acknowledged:
+        return jsonify({'msg': '게시물이 삭제되었습니다.'})
+    else:
+        return jsonify({'msg': '게시물 삭제에 실패하였습니다.'})
 
 
 if __name__ == '__main__':
