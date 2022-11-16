@@ -17,6 +17,7 @@ db = client.gsfestival
 
 # secret_key
 SECRET_KEY = 'GS_FESTIVAL'
+# project
 
 
 @app.route('/')
@@ -196,6 +197,18 @@ def gs_festival_user_get():
     return jsonify({
         'users': users
     })
+
+# 삭제 포스트
+@app.route("/post/delete/postid", methods=["POST"])
+def delete_contents():
+    post_id = request.form['post_id']
+    # 받아온 포스트 아이디와 유저 아이디가 같은지 비교한다. 같으면
+    # 해당 개시글을 삭제한다.
+    res=db.contents.delete_one({"_id":ObjectId(str(post_id))})
+    if res.acknowledged:
+        return jsonify({'msg': '게시물이 삭제되었습니다.'})
+    else:
+        return jsonify({'msg': '게시물 삭제에 실패하였습니다.'})
 
 
 @app.route('/postAdd')
