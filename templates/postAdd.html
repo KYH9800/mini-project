@@ -24,7 +24,7 @@
                 type: 'POST',
                 url: '/api/post',
                 data: {
-                    'content_give': content,
+                    'content_give': JSON.stringify(content),
                 },
                 success: function (response) {
                     if (response['success'] == 'true') {
@@ -50,7 +50,7 @@
     </div>
 </div>
 <div class="button-tag">
-    <button type="submit" onclick="location.href='index.html'">취소</button>
+    <button type="submit" onclick="location.href='/'">취소</button>
     <button class="success-button" onclick='post_add()'>작성 완료</button>
 </div>
 

@@ -1,14 +1,23 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/css/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="고윤혁의 버켓리스트"/>
+    <meta property="og:description" content="이루고 싶은 것을 기록하세요."/>
+    <meta property="og:image"
+          content="https://images.unsplash.com/photo-1601024445121-e5b82f020549?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80"/>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
-    <script src="/static/js/main.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 </head>
 
 
@@ -16,34 +25,18 @@
 <!--상단 바-->
 <nav id="top-bar" class="navbar navbar-expand-lg" style="background-color: rgb(230,237,251)">
     <span class="site-name">
-        <a class="navbar-brand" href="/"><b>구순</b></a>
-
+        <a class="navbar-brand" href="/"><b>구순재롱찬치 | 너의 소싯적 가락을 들려줘</b></a>
     </span>
 </nav>
 
 <!--로그인 사이드바-->
 <aside class="sidenav">
-    <button id="logout-btn" class="btn btn-danger" onclick="logout()">로그아웃</button>
-    <a href="#">
-        <a href="/postAdd">
-            <button id="posting-btn" class="btn btn-primary">글쓰기</button>
-        </a>
-    </a>
-    <br>로그인된 유저라면 ^^
-    <br><br><br>
-    비회원이라면 vv
-    <div class="login-forms">
-        <div class="input-group input-group-sm mb-3">
-            <input type="text" class="form-control" aria-label="Sizing example input"
-                   aria-describedby="inputGroup-sizing-sm" placeholder="아이디를 입력하세요">
-        </div>
-        <div class="input-group input-group-sm mb-2 input-pw">
-            <input type="password" class="form-control" aria-label="Sizing example input"
-                   aria-describedby="inputGroup-sizing-sm" placeholder="비밀번호를 입력하세요">
-        </div>
+    <div id="none-user">
+        <!--로그인이 안된 상태-->
     </div>
-    <button id="signup-btn" class="btn btn-dark">회원가입</button>
-    <button id="login-btn" class="btn btn-dark">로그인</button>
+    <div id="here-user">
+        <!--로그인된 상태-->
+    </div>
 </aside>
 <div>
     {%block con%}

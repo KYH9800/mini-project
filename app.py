@@ -19,15 +19,17 @@ def home():
     token_receive = request.cookies.get("user_token")
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_data = db.users.find_one({"email": payload['id']})
-        print(payload)
-        return render_template('index.html', user_info=user_data['email'])
+        user_nick = db.users.find_one({'nickname': payload['nick']})
+        print("payload: ", user_nick['nickname'])
+        return render_template('index.html', user_nickname=user_nick['nickname'])
 
     except jwt.ExpiredSignatureError:  # 만료된 서명 오류
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+        # return redirect(url_for("/", msg="로그인 시간이 만료되었습니다."))
+        return render_template('index.html', msg="로그인 시간이 만료되었습니다.")
 
     except jwt.exceptions.DecodeError:  # 예외.디코드 에러
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+        # return redirect(url_for("/", msg="로그인 정보가 존재하지 않습니다."))
+        return render_template('index.html', msg="로그인 정보가 존재하지 않습니다.")
 
 
 @app.route('/login')  # hint: 조건문 활용 msg 없으면? return jsonify
@@ -42,8 +44,19 @@ def signup():
 
 
 @app.route('/postAdd')
-def post_add():
-    return render_template('postAdd.html')
+def post_add_page():
+    token_receive = request.cookies.get("user_token")
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_data = db.users.find_one({'email': payload['id']})
+        print(payload)
+        return render_template('postAdd.html', user_info=user_data)
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("/", msg="로그인 시간이 만료되었습니다."))
+
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("/", msg="로그인 정보가 존재하지 않습니다."))
 
 
 # 이메일 중복확인
@@ -86,10 +99,11 @@ def post_nickname_check():
 # 회원가입
 @app.route('/api/signup', methods=["POST"])
 def post_signup():
+    # token이 있으면? 이 라우터에는 접근을 할 수 없게 안전 장치 설정
     email_receive = request.form["email_give"]
     nickname_receive = request.form["nickname_give"]
     password_receive = request.form["password_give"]
-
+    # tip: 이메일, 비밀번호 양식 조건이 맞는지, 서버에도 검사하는 것이 좋음
     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
 
     doc = {
@@ -106,23 +120,26 @@ def post_signup():
 @app.route("/api/login", methods=["POST"])  # users information
 def jwt_login():
     email_receive = request.form['email_give']
+    user_nickname = db.users.find_one({'email': email_receive})
+    # print("email_receive", email_receive)
     pw_receive = request.form['pw_give']
     # print(id_receive, pw_receive)
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-    print(email_receive)
+    payload_user_nickname = user_nickname['nickname']
 
     doc = {
         'email': email_receive,
         'password': pw_hash
     }
-
     result = db.users.find_one(doc)
     print(result)
 
     if result is not None:
+        # print("payload: ", payload_user_nickname, email_receive)
         payload = {
             'id': email_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
+            'nick': payload_user_nickname,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
             # datetime.datetime.utcnow(): 지금 부터 + datetime.timedelta(seconds=5): 5초 뒤까지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
@@ -135,27 +152,26 @@ def jwt_login():
 # 글 작성 post
 @app.route('/api/post', methods=['POST'])
 def post_add():
-    content_receive = request.form['content_give'],
+    content_receive = request.form['content_give']
 
-    doc = {'content': content_receive}
+    doc = {
+        'content': content_receive
+    }
 
-    db.content.insert_one(doc)
+    db.users.content.insert_one(doc)
     return jsonify({'msg': '작성 완료!'})
 
 
 @app.route("/api/post", methods=['GET'])
 def post_get():
     # object id 구하는 코드
-    posts_list = list(db.content.find({}))
-    object_id_li = []
-    object_id_list = []
-    for i in posts_list:
-        i['_id'] = str(i)
-        object_id_li.append(i)
-    for j in range(0, len(posts_list)):
-        object_id_list.append(object_id_li[j]['_id'][18:42])
+    post_list = list(db.contents.find({}))
+    for post in post_list:
+        comments = list(db.comments.find({"post_id": post["_id"]}))
+        post["comments"] = comments
+        # print(post_list)
 
-    return jsonify({'contents': posts_list})
+    return jsonify({'posts': dumps(post_list)})
 
 
 # 댓글 포스트
