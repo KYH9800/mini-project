@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import jwt
 import datetime
 import hashlib
+
 from bson.json_util import dumps
 
 app = Flask(__name__)
@@ -20,7 +21,7 @@ def home():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_data = db.users.find_one({"email": payload['id']})
         print(payload)
-        return render_template('index.html', user_info=user_data['email'])
+        return render_template('index.html', user_info=user_data)
 
     except jwt.ExpiredSignatureError:  # 만료된 서명 오류
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -121,7 +122,7 @@ def jwt_login():
     if result is not None:
         payload = {
             'id': email_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
             # datetime.datetime.utcnow(): 지금 부터 + datetime.timedelta(seconds=5): 5초 뒤까지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
@@ -136,9 +137,11 @@ def jwt_login():
 def post_add():
     content_receive = request.form['content_give'],
 
-    doc = {'content': content_receive}
+    doc = {
+        'content': content_receive
+    }
 
-    db.content.insert_one(doc)
+    db.contents.insert_one(doc)
     return jsonify({'msg': '작성 완료!'})
 
 
