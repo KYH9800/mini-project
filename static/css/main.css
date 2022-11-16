@@ -49,7 +49,7 @@
 
 }
 
-#posted_post textarea{
+.main-post {
     border: 1px solid rgb(207, 220, 248);
     padding: 50px;
     border-radius: 10px;
@@ -57,7 +57,7 @@
     height: 250px;
     resize: none;
 }
-#posted_post textarea:disabled{
+.main-post:disabled{
     background-color: white;
 }
 
@@ -87,8 +87,4 @@ ul {
 
 #post-edit-btns{
     margin-bottom: 5px;
-}
-
-#how-many-comments{
-    float: right;
 }
