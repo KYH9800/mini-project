@@ -3,11 +3,16 @@ from pymongo import MongoClient
 import jwt
 import datetime
 import hashlib
-
+import certifi
 from bson.json_util import dumps
+from bson.objectid import ObjectId
+
+
+ca = certifi.where()
 
 app = Flask(__name__)
-client = MongoClient("mongodb+srv://test:sparta@cluster0.nxcyemj.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://test:sparta@cluster0.nxcyemj.mongodb.net/?retryWrites=true&w=majority",
+                     tlsCAFile=ca)
 db = client.gsfestival
 
 # secret_key
@@ -147,29 +152,23 @@ def post_add():
 
 @app.route("/api/post", methods=['GET'])
 def post_get():
-    # object id 구하는 코드
-    posts_list = list(db.content.find({}))
-    object_id_li = []
-    object_id_list = []
-    for i in posts_list:
-        i['_id'] = str(i)
-        object_id_li.append(i)
-    for j in range(0, len(posts_list)):
-        object_id_list.append(object_id_li[j]['_id'][18:42])
+    posts_list = list(db.contents.find({}))
+    for post in posts_list:
+        comments = list(db.comments.find({'post_id': post['_id']}))
+        post['comments'] = comments
+        print(type(posts_list))
 
-    return jsonify({'contents': posts_list})
-
+    return jsonify({'contents': dumps(posts_list)})
 
 # 댓글 포스트
 @app.route('/api/comment', methods=['POST'])
 def comment_post():
-    post_id_receive = request.form['post_id_give']
+    post_id_receive = ObjectId(request.form['post_id_give'])
     comment_content_receive = request.form['comment_content_give']
-    # user_id = db.users.find_one({:}) // 유저 id를 가져옴
 
     doc = {
         'post_id': post_id_receive,
-        'comment_content': comment_content_receive
+        'comments': comment_content_receive
     }
     db.comments.insert_one(doc)
     return jsonify({'msg': '댓글작성 완료!'})
@@ -178,8 +177,16 @@ def comment_post():
 @app.route('/api/comment', methods=["GET"])
 def comment_get():
     comments_list = list(db.comments.find({}, {'_id': False}))
+    contentID_list = list(db.contents.find({}))
+    object_id_li = []
+    object_id_list = []
+    for i in contentID_list:
+        i['_id'] = str(i)
+        object_id_li.append(i)
+    for j in range(0, len(contentID_list)):
+        object_id_list.append(object_id_li[j]['_id'][18:42])
 
-    return jsonify({'comments': comments_list})
+    return jsonify({'comments': comments_list, 'contents': contentID_list})
 
 
 @app.route("/api", methods=["GET"])  # users information
