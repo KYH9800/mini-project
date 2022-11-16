@@ -3,15 +3,21 @@ from pymongo import MongoClient
 import jwt
 import datetime
 import hashlib
-
+import certifi
 from bson.json_util import dumps
+from bson.objectid import ObjectId
+
+
+ca = certifi.where()
 
 app = Flask(__name__)
-client = MongoClient("mongodb+srv://test:sparta@cluster0.nxcyemj.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://test:sparta@cluster0.nxcyemj.mongodb.net/?retryWrites=true&w=majority",
+                     tlsCAFile=ca)
 db = client.gsfestival
 
 # secret_key
 SECRET_KEY = 'GS_FESTIVAL'
+# project
 
 
 @app.route('/')
@@ -151,29 +157,23 @@ def post_add():
 
 @app.route("/api/post", methods=['GET'])
 def post_get():
-    # object id 구하는 코드
-    posts_list = list(db.content.find({}))
-    object_id_li = []
-    object_id_list = []
-    for i in posts_list:
-        i['_id'] = str(i)
-        object_id_li.append(i)
-    for j in range(0, len(posts_list)):
-        object_id_list.append(object_id_li[j]['_id'][18:42])
+    posts_list = list(db.contents.find({}))
+    for post in posts_list:
+        comments = list(db.comments.find({'post_id': post['_id']}))
+        post['comments'] = comments
+        print(type(posts_list))
 
-    return jsonify({'contents': posts_list})
-
+    return jsonify({'contents': dumps(posts_list)})
 
 # 댓글 포스트
 @app.route('/api/comment', methods=['POST'])
 def comment_post():
-    post_id_receive = request.form['post_id_give']
+    post_id_receive = ObjectId(request.form['post_id_give'])
     comment_content_receive = request.form['comment_content_give']
-    # user_id = db.users.find_one({:}) // 유저 id를 가져옴
 
     doc = {
         'post_id': post_id_receive,
-        'comment_content': comment_content_receive
+        'comments': comment_content_receive
     }
     db.comments.insert_one(doc)
     return jsonify({'msg': '댓글작성 완료!'})
@@ -182,8 +182,16 @@ def comment_post():
 @app.route('/api/comment', methods=["GET"])
 def comment_get():
     comments_list = list(db.comments.find({}, {'_id': False}))
+    contentID_list = list(db.contents.find({}))
+    object_id_li = []
+    object_id_list = []
+    for i in contentID_list:
+        i['_id'] = str(i)
+        object_id_li.append(i)
+    for j in range(0, len(contentID_list)):
+        object_id_list.append(object_id_li[j]['_id'][18:42])
 
-    return jsonify({'comments': comments_list})
+    return jsonify({'comments': comments_list, 'contents': contentID_list})
 
 
 @app.route("/api", methods=["GET"])  # users information
@@ -193,6 +201,23 @@ def gs_festival_user_get():
     return jsonify({
         'users': users
     })
+
+# 삭제 포스트
+@app.route("/post/delete/postid", methods=["POST"])
+def delete_contents():
+    post_id = request.form['post_id']
+    # 받아온 포스트 아이디와 유저 아이디가 같은지 비교한다. 같으면
+    # 해당 개시글을 삭제한다.
+    res=db.contents.delete_one({"_id":ObjectId(str(post_id))})
+    if res.acknowledged:
+        return jsonify({'msg': '게시물이 삭제되었습니다.'})
+    else:
+        return jsonify({'msg': '게시물 삭제에 실패하였습니다.'})
+
+
+@app.route('/postAdd')
+def post_add():
+    return render_template('postAdd.html')
 
 
 if __name__ == '__main__':
