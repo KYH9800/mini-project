@@ -36,7 +36,6 @@ def comment_post():
         'comment_content': comment_content_receive
     }
     db.comments.insert_one(doc)
-    return jsonify({'msg': '댓글작성 완료!'})
 
 
 @app.route('/api/comment', methods=["GET"])
