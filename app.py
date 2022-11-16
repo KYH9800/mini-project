@@ -21,7 +21,7 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_nick = db.users.find_one({'nickname': payload['nick']})
-        print("payload: ", user_nick['nickname'])
+        # print("payload: ", user_nick['nickname'])
         return render_template('index.html', user_nickname=user_nick['nickname'])
 
     except jwt.ExpiredSignatureError:  # 만료된 서명 오류
@@ -30,7 +30,7 @@ def home():
 
     except jwt.exceptions.DecodeError:  # 예외.디코드 에러
         # return redirect(url_for("/", msg="로그인 정보가 존재하지 않습니다."))
-        return render_template('index.html', msg="로그인 정보가 존재하지 않습니다.")
+        return render_template('index.html')
 
 
 @app.route('/login')  # hint: 조건문 활용 msg 없으면? return jsonify
@@ -49,29 +49,39 @@ def post_add_page():
     token_receive = request.cookies.get("user_token")
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_data = db.users.find_one({'email': payload['id']})
-        print(payload)
-        return render_template('postAdd.html', user_info=user_data)
+        user_nick = db.users.find_one({'nickname': payload['nick']})
+        print("payload: ", user_nick['nickname'])
+        return render_template('postAdd.html', user_nickname=user_nick['nickname'])
 
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("/", msg="로그인 시간이 만료되었습니다."))
+    except jwt.ExpiredSignatureError:  # 만료된 서명 오류
+        # return redirect(url_for("/"))
+        return render_template('index.html', msg="로그인 시간이 만료되었습니다.")
 
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("/", msg="로그인 정보가 존재하지 않습니다."))
+    except jwt.exceptions.DecodeError:  # 예외.디코드 에러
+        # return redirect(url_for("/"))
+        return render_template('index.html', msg="로그인 정보가 존재하지 않습니다.")
+
+
+# 로그인된 유저의 정보를 전달하는 라우터
+@app.route('/api/users_info', methods=["GET"])
+def users_info():
+    token_receive = request.cookies.get('user_token')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_data = db.users.find_one({"email": payload["id"]})
+    user_nick = db.users.find_one({"nickname": payload["nick"]})
+    print("req", user_data['_id'], user_nick['nickname'])
+    return jsonify({'user_infos': dumps(user_data["_id"]), 'user_nick': dumps(user_nick['nickname'])})
 
 
 # 이메일 중복확인
 @app.route('/api/signup_email_check', methods=["GET"])
 def post_email_check():
     email_receive = request.args.get("email_give")
-
     doc = {
         'email': email_receive
     }
-
     user = db.users.find_one(doc, {'_id': False})
-    print(user)
-
+    # print(user)
     if user is None:
         return jsonify({'users': None})
     else:
@@ -82,8 +92,7 @@ def post_email_check():
 @app.route('/api/signup_nickname_check', methods=["GET"])
 def post_nickname_check():
     nickname_receive = request.args.get("nickname_give")
-    print(nickname_receive)
-
+    # print(nickname_receive)
     doc = {
         'nickname': nickname_receive
     }
@@ -158,7 +167,7 @@ def post_add():
     token_receive = request.cookies.get('user_token')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_data = db.users.find_one({"email": payload["id"]})
-
+    # print(user_data)
     doc = {
         'content': content_receive,
         'user_id': user_data['_id']
