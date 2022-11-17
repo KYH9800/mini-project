@@ -132,6 +132,8 @@ function post_get() {
                         // todo: post_user_id는 post의 _id이고, user_id는 user의 _id이다.
                         post_html = `
                             <!--게시글-->
+                            ${post_user_id === user_id ? `<button id="delete_post_btn"  style="width:200px" onclick="delete_post('${post_id}')">내 글 삭제하기</button>` : `<p><p>`}
+
                             <div class="main-post">
                                 ${posted_content}
                             </div>
