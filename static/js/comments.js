@@ -11,7 +11,7 @@ function postComments(objID) {
                 url: '/api/comment',
                 data: {
                     'post_id_give': obj,
-                    'comment_content_give': comment_content
+                    'comment_content_give': comment_content,
                 },
                 success: function (response) {
                     window.location.reload()

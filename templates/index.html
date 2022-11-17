@@ -24,6 +24,10 @@
         {%if msg %}
             alert("{{ msg }}")
         {%endif %}
+        {%if msg == '로그인 시간이 만료되었습니다.' %}
+            $.removeCookie('user_token', {path: '/'});
+            window.location.href = '/'
+        {%endif %}
     </script>
 </head>
 
