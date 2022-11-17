@@ -109,6 +109,7 @@ function post_get() {
         url: '/api/post', data: {},
         success: function (response) {
             if (!response['contents']) {
+
                 $(`#posted_post`).append(`<h5>게시글이 없습니다. 글을 작성해주세요.</h5>`)
             } else {
                 let rows = JSON.parse(response['contents'])
