@@ -160,34 +160,7 @@
     background: #fda3a3;
 }
 
-/*.main-post:disabled {*/
-/*    background-color: white;*/
-/*}*/
-
-/*.input-comment {*/
-/*    margin-top: 10px;*/
-/*}*/
-
-/*#post-comment {*/
-/*    width: 300px;*/
-/*}*/
-
-
-/*.input-comment button {*/
-/*    float: right;*/
-/*    background-color: rgb(230, 237, 251)*/
-/*}*/
-
-/*.comment-top-hr {*/
-/*    border: none;*/
-/*    height: 4px;*/
-/*    background: rgb(207, 220, 248);*/
-/*}*/
-
-/*ul {*/
-/*    list-style: none;*/
-/*}*/
-
-/*#post-edit-btns {*/
-/*    margin-bottom: 5px;*/
-/*}*/
+#user_comt-name{
+    color: #808080;
+    font-weight: 600;
+}

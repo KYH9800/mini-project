@@ -18,50 +18,52 @@
 
     <script>
         {%if msg %}
-            alert("{{ msg }}")
-        {%endif %}
+        alert("{{ msg }}")
+        {% endif %}
     </script>
 
     <script>
         function post_add() {
             let content = $('#content').val()
 
-            $.ajax({
-                type: 'POST',
-                url: '/api/post',
-                data: {
-                    'content_give': content
-                },
-                success: function (response) {
-                    if (response['success'] == 'true') {
-                        alert(response['msg'])
-                        window.location.replace("/")
-                    } else {
-                        alert(response['msg'])
-                        window.location.href = '/'
+            if (confirm("게시글 생성하시겠습니까?") === true) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/post',
+                    data: {
+                        'content_give': content
+                    },
+                    success: function (response) {
+                        if (response['success'] == 'true') {
+                            alert(response['msg'])
+                            window.location.replace("/")
+                        } else {
+                            alert(response['msg'])
+                            window.location.href = '/'
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     </script>
 </head>
 
 <body>
-    <div class="mypic">
-        <h1>입터널 시티</h1>
-        <h3>너의 입에서 나오는 모든 이야기</h3>
+<div class="mypic">
+    <h1>입터널 시티</h1>
+    <h3>너의 입에서 나오는 모든 이야기</h3>
+</div>
+<div class="post-box">
+    <div class="post-title">
+        게시글 작성하기
     </div>
-    <div class="post-box">
-        <div class="post-title">
-            게시글 작성하기
-        </div>
-        <div>
-            <textarea name="contents" id="content" placeholder="내용을 입력해 주세요."></textarea>
-        </div>
+    <div>
+        <textarea name="contents" id="content" placeholder="내용을 입력해 주세요."></textarea>
     </div>
-    <div class="button-tag">
-        <button type="button" class="btn btn-danger" onclick="location.href='/'">취소</button>
-        <button type="button" class="btn btn-primary" onclick='post_add()'>작성 완료</button>
-    </div>
+</div>
+<div class="button-tag">
+    <button type="button" class="btn btn-danger" onclick="location.href='/'">취소</button>
+    <button type="button" class="btn btn-primary" onclick='post_add()'>작성 완료</button>
+</div>
 </body>
 </html>

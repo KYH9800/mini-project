@@ -5,6 +5,8 @@ $(document).ready(function () {
 let user_infos = null
 let user_name = null
 
+console.log(document.cookie)
+
 if (document.cookie) {
     $.ajax({
         type: 'GET',
@@ -108,11 +110,14 @@ function post_get() {
         type: "GET",
         url: '/api/post', data: {},
         success: function (response) {
-            if (!response['contents']) {
-
+            let response_data = JSON.parse(response['contents'])
+            // console.log(response_data.length)
+            if (response_data.length === 0) {
                 $(`#posted_post`).append(`<h5>게시글이 없습니다. 글을 작성해주세요.</h5>`)
             } else {
                 let rows = JSON.parse(response['contents'])
+                let user_nick = user_name
+
                 let post_html = ""
 
                 for (let i = 0; i < rows.length; i++) {
@@ -121,13 +126,13 @@ function post_get() {
                     let comments = rows[i]['comments'][0]
                     let posted_content = rows[i]['content']
 
+
                     // user의 post를 찾는다.
                     let post_user_id = rows[i]['user_id']['$oid']
                     let user_id = user_infos
                     if (comments) {
-                        console.log("조건문 rows: ", post_user_id)
-                        console.log("조건문 user: ", user_id)
-
+                        // console.log("조건문 rows: ", post_user_idr_id)
+                        // console.log("조건문 user: ", user_id)
                         // todo: delete_post(post_user_id)...
                         // todo: 생성된 tag 안에 onclick 함수 생성 -> 매개변수로 post_user_id 넘기기 : 139, 172번째 삭제 버튼
                         // todo: post_user_id는 post의 _id이고, user_id는 user의 _id이다.
@@ -144,7 +149,8 @@ function post_get() {
                                     aria-describedby="button-addon2"
                                     >
                                 <input id="${post_id}" type="hidden" value="${post_id}">
-                                <button onclick="postComments('${post_id}')" class="btn btn-outline-secondary" type="button" id="button-addon2">작성
+                                <button onclick="postComments('${post_id}')" class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                    작성
                                 </button>
                             </div>
                             
@@ -153,7 +159,14 @@ function post_get() {
                                     <div id="${post_id}" class="list-group">
                                     
                                     ${comments_lists.map(function (value, index, array) {
-                            let html_temp = `<div>${value['comments']}</div>`
+                            let html_temp = `
+                                            <div>
+                                                <span id="user_comt-name">${user_nick}</span>님의 댓글입니다.
+                                            </div>
+                                            <div>
+                                                ${value['comments']}
+                                            </div>
+                                            `
                             return html_temp
                         })
                         }                        
@@ -176,7 +189,8 @@ function post_get() {
                                    aria-describedby="button-addon2"
                                    >
                             <input id="${post_id}" type="hidden" value="${post_id}" name='${post_id}'>
-                            <button onclick="postComments('${post_id}')" class="btn btn-outline-secondary" type="button" id="button-addon2">작성
+                            <button onclick="postComments('${post_id}')" class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                작성
                             </button>
                         </div>
                             <table class="visual-comment">
@@ -188,8 +202,7 @@ function post_get() {
                             </table>
                             <br>
                     </div>
-                     <hr class="comment-top-hr">
-                    <br><br>`
+                    `
                     }
                     $(`#posted_post`).append(post_html)
                 }
@@ -200,15 +213,17 @@ function post_get() {
 
 // 게시글 삭제
 function delete_post(post_id) {
-    $.ajax({
-        type: 'POST',
-        url: '/post/delete/postid',
-        data: {'post_id_value_give': post_id},
-        success: function (response) {
-            window.location.reload()
-            alert(response['msg'])
-        }
-    })
+    if (confirm("게시글을 정말 삭제 하시겠습니까?") === true) {
+        $.ajax({
+            type: 'POST',
+            url: '/post/delete/postid',
+            data: {'post_id_value_give': post_id},
+            success: function (response) {
+                window.location.reload()
+                alert(response['msg'])
+            }
+        })
+    }
 }
 
 // 게시글에 댓글달기
