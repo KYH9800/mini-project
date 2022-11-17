@@ -4,11 +4,15 @@ import jwt
 import datetime
 import hashlib
 from bson.objectid import ObjectId
+import certifi
 
 from bson.json_util import dumps
 
 app = Flask(__name__)
-client = MongoClient("mongodb+srv://test:sparta@cluster0.nxcyemj.mongodb.net/?retryWrites=true&w=majority")
+ca = certifi.where()
+
+client = MongoClient("mongodb+srv://test:sparta@cluster0.nxcyemj.mongodb.net/?retryWrites=true&w=majority",
+                     tlsCAFile=ca)
 db = client.gsfestival
 
 # secret_key
@@ -50,7 +54,6 @@ def post_add_page():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_nick = db.users.find_one({'nickname': payload['nick']})
-        print("payload: ", user_nick['nickname'])
         return render_template('postAdd.html', user_nickname=user_nick['nickname'])
 
     except jwt.ExpiredSignatureError:  # 만료된 서명 오류
@@ -69,7 +72,6 @@ def users_info():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_data = db.users.find_one({"email": payload["id"]})
     user_nick = db.users.find_one({"nickname": payload["nick"]})
-    print("req", user_data['_id'], user_nick['nickname'])
     return jsonify({'user_infos': dumps(user_data["_id"]), 'user_nick': dumps(user_nick['nickname'])})
 
 
@@ -98,7 +100,6 @@ def post_nickname_check():
     }
 
     user = db.users.find_one(doc, {'_id': False})
-    print(user)
 
     if user is None:
         return jsonify({'users': None})
@@ -142,7 +143,6 @@ def jwt_login():
         'password': pw_hash
     }
     result = db.users.find_one(doc)
-    print(result)
 
     if result is not None:
         # print("payload: ", payload_user_nickname, email_receive)
@@ -183,9 +183,22 @@ def post_get():
     for post in posts_list:
         comments = list(db.comments.find({'post_id': post['_id']}))
         post['comments'] = comments
-        print(type(posts_list))
 
     return jsonify({'contents': dumps(posts_list)})
+
+
+@app.route("/post/delete/postid", methods=['POST'])
+def post_delete():
+    # 포스트 넘겨받은 post id
+    post_id_value_receive = request.form['post_id_value_give']
+    # delete_post_id = list(db.contents.find({}))
+    # for post in range(0,len(delete_post_id)):
+    #     print(delete_post_id[post])
+    # post_del = delete_post_id({})
+    print(type(post_id_value_receive))
+
+    db.contents.delete_one({'_id': ObjectId(post_id_value_receive)})
+    return jsonify({'msg': '삭제 완료!'})
 
 
 # 댓글 포스트
