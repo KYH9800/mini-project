@@ -182,9 +182,15 @@ def post_get():
     posts_list = list(db.contents.find({}))
     for post in posts_list:
         comments = list(db.comments.find({'post_id': post['_id']}))
+        comments_users = list(db.users.find({}))  # 'user_id': post['_id']
         post['comments'] = comments
-
-    return jsonify({'contents': dumps(posts_list)})
+        # print('comments_user', comments_users)
+        # for comments_user in comments_users:
+        # posts_list['nickname'] = comments_user['nickname']
+        # print(comments_user['nickname'])
+        # comments_user['nickname'] = comments_user['nickname']
+        # print(comments)
+        return jsonify({'contents': dumps(posts_list)})
 
 
 @app.route("/post/delete/postid", methods=['POST'])
@@ -206,10 +212,18 @@ def post_delete():
 def comment_post():
     post_id_receive = ObjectId(request.form['post_id_give'])
     comment_content_receive = request.form['comment_content_give']
+    user_id_receive = request.form['user_id_give']
+    users = list(db.users.find({}, {}))
+
+    for user in users:
+        if user == post_id_receive:
+            find_user = list(db.users.find({}, {}))
+            print(find_user)
 
     doc = {
         'post_id': post_id_receive,
-        'comments': comment_content_receive
+        'comments': comment_content_receive,
+        'user_id': user_id_receive
     }
     db.comments.insert_one(doc)
     return jsonify({'msg': '댓글작성 완료!'})

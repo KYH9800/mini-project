@@ -5,7 +5,6 @@ $(document).ready(function () {
 let user_infos = null
 let user_name = null
 
-console.log(document.cookie)
 
 if (document.cookie) {
     $.ajax({
@@ -36,7 +35,7 @@ if (document.cookie) {
                      <div class="login-forms">
                         <div class="input-group input-group-sm mb-3">
                             <input id="userEmailInput" type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-sm" placeholder="아이디를 입력하세요">
+                                   aria-describedby="inputGroup-sizing-sm" placeholder="계정을 입력하세요">
                         </div>
                         <div class="input-group input-group-sm mb-2 input-pw">
                             <input id="userPassword" type="password" class="form-control" aria-label="Sizing example input"
@@ -70,7 +69,7 @@ function login() {
     let user_pw = $("#userPassword").val()
 
     if (!user_email) {
-        alert("이메일을 입력해주세요.")
+        alert("회원가입 시 작성한 이메일을 적어주세요.")
         return false
     } else if (!user_pw) {
         alert("비밀번호를 입력해주세요.")
@@ -83,7 +82,6 @@ function login() {
                 "pw_give": user_pw
             },
             success: function (response) {
-                console.log(response)
                 if (response['result'] === 'success') {
                     $.cookie('user_token', response['token']);
 
@@ -123,8 +121,9 @@ function post_get() {
                 for (let i = 0; i < rows.length; i++) {
                     let post_id = rows[i]['_id']['$oid']
                     let comments_lists = rows[i]['comments']
-                    let comments = rows[i]['comments'][0]
+                    let comments = rows[i]['comments']
                     let posted_content = rows[i]['content']
+                    console.log('comments', comments)
 
 
                     // user의 post를 찾는다.
@@ -149,7 +148,7 @@ function post_get() {
                                     aria-describedby="button-addon2"
                                     >
                                 <input id="${post_id}" type="hidden" value="${post_id}">
-                                <button onclick="postComments('${post_id}')" class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                <button onclick="postComments('${post_id}', '${user_id}')" class="btn btn-outline-secondary" type="button" id="button-addon2">
                                     작성
                                 </button>
                             </div>
@@ -159,15 +158,18 @@ function post_get() {
                                     <div id="${post_id}" class="list-group">
                                     
                                     ${comments_lists.map(function (value, index, array) {
-                            let html_temp = `
-                                            <div>
-                                                <span id="user_comt-name">${user_nick}</span>님의 댓글입니다.
-                                            </div>
-                                            <div>
-                                                ${value['comments']}
-                                            </div>
-                                            `
-                            return html_temp
+                                        let html_temp = `
+                                                        <!--<div>
+                                                            <span id="user_comt-name">${value}</span>님의 댓글입니다.
+                                                        </div>-->
+                                                        <!--<div>
+                                                            <span >익명</span>의 댓글입니다.
+                                                        </div>-->
+                                                        <div>
+                                                            ${value['comments']}
+                                                        </div>
+                                                        `
+                                        return html_temp
                         })
                         }                        
                                     </div>
@@ -189,7 +191,7 @@ function post_get() {
                                    aria-describedby="button-addon2"
                                    >
                             <input id="${post_id}" type="hidden" value="${post_id}" name='${post_id}'>
-                            <button onclick="postComments('${post_id}')" class="btn btn-outline-secondary" type="button" id="button-addon2">
+                            <button onclick="postComments('${post_id}', '${user_id}')" class="btn btn-outline-secondary" type="button" id="button-addon2">
                                 작성
                             </button>
                         </div>
