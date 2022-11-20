@@ -25,6 +25,30 @@ Back: python, flask, JWT, mongoDB
 
 ### [API 명세서] 
 <img width="1308" alt="스크린샷 2022-11-15 13 49 45" src="https://user-images.githubusercontent.com/105340187/201829198-1e55b12a-57a8-4c89-8add-5a5d7e6e0d06.png">
+---
+### 프로젝트 이미지
+#### 1. 메인 화면
+![image](https://user-images.githubusercontent.com/61128538/202897320-2264de4c-b0b0-41a8-ad8b-bbf809de7524.png)
+
+#### 2. 회원가입 화면
+![image](https://user-images.githubusercontent.com/61128538/202897358-70ceb053-3683-4ccc-bab6-7666b5ec81f3.png)
+![image](https://user-images.githubusercontent.com/61128538/202897384-f8e152e8-7fd0-4dfd-a717-6d28ff33c4d4.png)
+
+#### 3. 로그인
+![image](https://user-images.githubusercontent.com/61128538/202897456-6cacfa02-c46f-48e2-a791-cd3900eca391.png)
+
+#### 4. 게시글 작성
+![image](https://user-images.githubusercontent.com/61128538/202897479-973b2765-b02f-4d4f-903e-4f04dbedc207.png)
+![image](https://user-images.githubusercontent.com/61128538/202897492-97cee8e3-fd5c-4175-bfdd-86cf81ea9155.png)
+
+#### 5. 댓글 작성
+![image](https://user-images.githubusercontent.com/61128538/202897522-3e25e4ab-d2c1-40c2-91d5-4b4e9b781b7d.png)
+![image](https://user-images.githubusercontent.com/61128538/202897528-a2885f1f-7828-458e-964b-fd9cda8bf763.png)
+
+#### 6. 게시글 삭제(본인의 글만 삭제 가능)
+![image](https://user-images.githubusercontent.com/61128538/202897557-c59ca4c5-6a3c-4ffd-ac0d-469752c03513.png)
+![image](https://user-images.githubusercontent.com/61128538/202897571-c57241d1-0f78-464e-9bb0-d351ceb3db47.png)
+![image](https://user-images.githubusercontent.com/61128538/202897585-974c9516-0a15-442f-976c-4022f2ec5711.png)
 
 ---
 ### [트러블 슈팅]
