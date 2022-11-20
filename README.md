@@ -1,9 +1,17 @@
 # mini-project
 
 ### Front-end && Back-end
-Front: vaillaJS, Bootstrap, HTML/CSS
 
-Back: python, flask, JWT, mongoDB
+#### Front:
+- vaillaJS
+- Bootstrap
+- HTML/CSS
+
+#### Back:
+- python
+- flask
+- JWT
+- mongoDB
 
 ### 구현기능
 
