@@ -1,6 +1,6 @@
 # mini-project
 
-### Front-end && Back-end
+### [Front-end && Back-end]
 
 #### Front:
 - vaillaJS
@@ -15,7 +15,7 @@
 
 ---
 
-### 구현기능
+### [구현기능]
 
 1. 로그인
 - JWT 적용 / 토큰 만료 시간 설정
@@ -39,7 +39,7 @@
 
 ---
 
-### 프로젝트 이미지
+### [프로젝트 이미지]
 #### 1. 메인 화면
 ![image](https://user-images.githubusercontent.com/61128538/202897320-2264de4c-b0b0-41a8-ad8b-bbf809de7524.png)
 
