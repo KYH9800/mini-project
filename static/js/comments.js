@@ -1,6 +1,7 @@
-function postComments(objID) {
-    let obj = objID
-    let comment_content = $(`#${objID}`).val()
+function postComments(PostobjID, user_id) {
+    let post_obj = PostobjID
+    let comment_content = $(`#${PostobjID}`).val()
+    console.log('넘겨받은 유저 아디', user_id)
 
     if (document.cookie) {
         if (!comment_content) {
@@ -10,8 +11,9 @@ function postComments(objID) {
                 type: 'POST',
                 url: '/api/comment',
                 data: {
-                    'post_id_give': obj,
+                    'post_id_give': post_obj,
                     'comment_content_give': comment_content,
+                    'user_id_give': user_id
                 },
                 success: function (response) {
                     window.location.reload()
